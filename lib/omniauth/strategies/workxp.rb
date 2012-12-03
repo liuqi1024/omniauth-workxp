@@ -4,9 +4,9 @@ module OmniAuth
   module Strategies
     class Workxp < OmniAuth::Strategies::OAuth2
       option :client_options, {
-        :site => 'https://api.github.com',
-        :authorize_url => 'https://github.com/login/oauth/authorize',
-        :token_url => 'https://github.com/login/oauth/access_token'
+        :site => 'https://workxp.info',
+        :authorize_url => 'https://workxp.info/oauth/authorize',
+        :token_url => 'https://workxp.info/oauth/token'
       }
 
       def request_phase
@@ -30,7 +30,7 @@ module OmniAuth
           'name' => raw_info['name'],
           'image' => raw_info['avatar_url'],
           'urls' => {
-            'GitHub' => "https://github.com/#{raw_info['login']}",
+            'Workxp' => "https://workxp.info/#{raw_info['login']}",
             'Blog' => raw_info['blog'],
           },
         }
@@ -41,8 +41,9 @@ module OmniAuth
       end
 
       def raw_info
-        access_token.options[:mode] = :query
-        @raw_info ||= access_token.get('/user').parsed
+        # access_token.options[:mode] = :query
+        # @raw_info ||= access_token.get('/user').parsed
+        @raw_info = {}
       end
 
       def email
