@@ -39,7 +39,7 @@ Example with devise:
 #### devise.rb:
      config.omniauth :workxp, 'a9acabbfd9be74d4f77d2227b7621e18c7ba6290d87459801014039f8af63290', '0deb222c9602cedefc7ba17f6820e5c926e20bc9113406ec8fd71fff678189f0'    
 
-views:
+#### views:
      <%= link_to "login by workxp", http://lvh.me:3000/users/auth/workxp %>
 
 
