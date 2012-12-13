@@ -4,9 +4,7 @@ module OmniAuth
   module Strategies
     class Workxp < OmniAuth::Strategies::OAuth2
       option :client_options, {
-        :site => 'https://workxp.info',
-        :authorize_url => 'https://workxp.info/oauth/authorize',
-        :token_url => 'https://workxp.info/oauth/token'
+        :site => 'https://workxp.info'
       }
 
       def request_phase
@@ -41,9 +39,8 @@ module OmniAuth
       end
 
       def raw_info
-        # access_token.options[:mode] = :query
-        # @raw_info ||= access_token.get('/user').parsed
-        @raw_info = {}
+        access_token.options[:mode] = :header
+        @raw_info ||= access_token.get('/api/users/me.json', {:headers =>{'Sub-Domain' => 'xjgz-bj'}}).parsed
       end
 
       def email
