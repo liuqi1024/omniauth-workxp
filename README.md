@@ -8,7 +8,7 @@ Official OmniAuth strategy for Workxp.
 
 Add this line to your application's Gemfile:
 
-	gem 'omniauth-workxp'
+    gem 'omniauth-workxp'
 
 And then execute:
 
@@ -19,28 +19,60 @@ Or install it yourself as:
     $ gem install omniauth-workxp
 
 ## Usage
-Example with devise:
 
-#### routes:
-     devise_for :users, :controllers => { omniauth_callbacks: "omniauth_callbacks"}
-#### user.rb:
-    open omniauthable in devise:
-    devise :omniauthable
-#### controller:
-     rails g controller omniauth_callbacks --skip-helper --skip-assets
-     class OmniauthCallbacksController < ApplicationController
-       def all
-    	 auth = request.env["omniauth.auth"]
-         raise auth.to_yaml
-       end
- 
-       alias_method :workxp, :all
-     end
-#### devise.rb:
-     config.omniauth :workxp, 'a9acabbfd9be74d4f77d2227b7621e18c7ba6290d87459801014039f8af63290', '0deb222c9602cedefc7ba17f6820e5c926e20bc9113406ec8fd71fff678189f0'    
+`OmniAuth::Strategies::WorkXP` is simply a Rack middleware. Read the OmniAuth docs for detailed instructions: https://github.com/intridea/omniauth.
 
-#### views:
-     <%= link_to "login by workxp", http://lvh.me:3000/users/auth/workxp %>
+Here's a quick example, adding the middleware to a Rails app in `config/initializers/omniauth.rb`:
+
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :workxp, ENV['WORKXP_KEY'], ENV['WORKXP_SECRET']
+end
+```
+
+
+## Auth Hash
+
+Here's an example *Auth Hash* available in `request.env['omniauth.auth']`:
+
+```ruby
+{
+  :provider => 'workxp',
+  :uid => 'user email',
+  :info => {
+    :email => 'yuanping@workxp.info',
+    :name => '袁平',
+    :image => 'http://workxp.info/avatar.png',
+    :accounts => {
+      "company": "容平志远科技（北京）有限公司", 
+      "domain": "rongping"
+    }
+  },
+  :credentials => {
+    :expires => false,
+    :token => 'ABCDEF...', # OAuth 2.0 access_token, which you may wish to store
+    :refresh_token => 'decfa',
+    :expires_at => 1321747205 # when the access token expires (it always will)
+  },
+  :extra => {
+    :raw_info => {
+        "identity": {
+            "id": 12,
+            "name": "袁平",
+            "email": "yuanping@workxp.info",
+            "avatar_url": "http://workxp.info/avatar.png"
+        },
+        "accounts": {
+            "company": "容平志远科技（北京）有限公司", 
+            "domain": "rongping"
+        }
+    }
+  }
+}
+```
+
+The precise information available may depend on the permissions which you request.
+
 
 
 ## Contributing
