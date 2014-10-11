@@ -6,7 +6,7 @@ module OmniAuth
       option :name, 'workxp'
       
       option :client_options, {
-        :site => 'https://workxp.info'
+        :site => 'http://litcrm.com'
       }
 
       uid { raw_info['identity']['id'].to_s }
